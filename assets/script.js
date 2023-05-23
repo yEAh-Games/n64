@@ -620,15 +620,6 @@ class MyClass {
         this.resizeCanvas();
     }
 
-    // load from url
-    async initModule() {
-        console.log('module initialized');
-        myClass.rivetsData.moduleInitializing = false;
-    
-        setTimeout(() => {
-            myClass.load_url('./game.z64');
-        }, 5000); 
-    }
 
     //not being used currently
     async loadFiles(){

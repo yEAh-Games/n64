@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>yEAh N64 emulator | YGP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,9 +28,9 @@
             <div rv-if="data.beforeEmulatorStarted">
                 <button id="btnPlayGame" class="btn btn-primary mt-4" onclick="myClass.loadRom();" rv-if="data.hasRoms"
                     rv-disabled="data.moduleInitializing">Play Game</button>
-      
+
                 <button type="button" class="btn btn-primary mt-4" id="btnRemap" onclick="myApp.showRemapModal()">
-                    Remap Buttons
+                    Remap buttons
                 </button>
                 <span rv-if="data.showLogin">
                     <button class="btn btn-primary mt-4" rv-if="data.loggedIn | ev '==false'"
@@ -158,7 +159,7 @@
             </div>
 
             <div style="margin-top:40px;" rv-if="data.beforeEmulatorStarted">
-                <div id="dropArea" style="width: 150px; height: 150px; border: gray 1px solid;margin-left: auto;
+                <div id="dropArea" style="width: 300px; height: 275px; border: gray 1px solid;margin-left: auto;
                     color: darkgrey;margin-right: auto; border-style: dashed;">
                     <br>
                     <br>
@@ -174,6 +175,54 @@
                         }
                     </script>
 
+                    <script>let timeoutId = null;
+                        let isLoadPaused = false;
+                        
+                        async function initModule() {
+                          console.log('module initialized');
+                          myClass.rivetsData.moduleInitializing = false;
+                        
+                          loadWithTimeout();
+                        }
+                        
+                        function loadWithTimeout() {
+                          if (!isLoadPaused) {
+                            timeoutId = setTimeout(() => {
+                              myClass.load_url('./game.z64');
+                            }, 5000);
+                          }
+                        }
+                        
+                        function toggleLoadPause() {
+                          const button = document.getElementById('pauseButton');
+                        
+                          if (isLoadPaused) {
+                            isLoadPaused = false;
+                            loadWithTimeout();
+                            button.style.backgroundColor = '#8b0000';
+                            button.textContent = 'Pause Load';
+                            console.log('Load resumed');
+                          } else {
+                            clearTimeout(timeoutId);
+                            isLoadPaused = true;
+                            button.style.backgroundColor = '#013220';
+                            button.textContent = 'Click to continue load';
+                            console.log('Continue load');
+                          }
+                        }
+                        
+
+                    </script>
+                    <br>
+<button id="pauseButton" style="width:120px!important;font-size:10px!important;background-color:#8b0000;color:#fff;" class="btn btn-primary mt-2 mb-2" onclick="toggleLoadPause()">Click to pause load</button>
+
+                    <script>
+                        window.onload = function () {
+                            initModule();
+                        };
+                    </script>
+
+                    <br>
                     <br>
                     <img src="/assets/loading.gif" width="20px">
                 </div>
@@ -312,7 +361,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Remap Buttons</h5>
+                    <h5 class="modal-title">Remap buttons</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -966,6 +1015,7 @@
         script.src = '/assets/script.js?v=' + rando;
         document.getElementsByTagName('head')[0].appendChild(script);
     </script>
+
 </body>
 
 </html>
