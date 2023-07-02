@@ -2,6 +2,8 @@ input[type="file"] {
     display: none;
 }
 
+.btn-primary{background-color:#ff4747!important;border-color:#0c0e14!important}
+
 .table td,
 .table th {
     padding: 5px;
